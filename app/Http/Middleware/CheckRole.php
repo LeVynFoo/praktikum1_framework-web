@@ -8,12 +8,18 @@ use Symfony\Component\HttpFoundation\Response;
  
 class CheckRole
 {
-    public function handle(Request $request, Closure $next, string ...$roles): Response
+    public function handle(Request $request, Closure $next, ...$roles): Response
     {
-        if (! $request->user() || ! in_array($request->user()->role, $roles)) {
-            abort(403, 'Anda tidak memiliki akses ke halaman ini.');
+        if (!auth()->check()) {
+            return redirect('/login');
         }
- 
+
+        if (!in_array(auth()->user()->role, $roles)) {
+            return response()->view('errors.403', [], 403);
+        }
+
         return $next($request);
     }
+    
 }
+
