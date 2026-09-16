@@ -1,6 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Auth\LoginController;
+
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('dashboard');
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -18,8 +26,6 @@ Route::post('/pos', function () {
     return 'Transaksi berhasil disimpan';
 });
 
-
-use App\Http\Controllers\Auth\LoginController;
  
 Route::get('/login', [LoginController::class, 'create'])
     ->middleware('guest')
