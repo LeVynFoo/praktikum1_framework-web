@@ -63,3 +63,9 @@ Route::get('/logout', function () {
 
     return redirect('/login');
 });
+
+Route::middleware(['auth', 'role:kasir'])->group(function () {
+    Route::get('/pos/history', function () {
+        return 'Riwayat transaksi saya';
+    })->name('pos.history');
+});
